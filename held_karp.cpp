@@ -5,13 +5,18 @@
 
 using namespace std;
 
+int choose(int n, int k){
+	if(k==0) return 1;
+	return (n * choose(n-1,k-1))/k;
+}
+
 int main(int argc, char **argv){
 	//argv[1]=number of cities
 	//argv[2]=file name of distance matrix
 	
 	int number_of_cities;
-	int i, j;
-	double **distance_matrix, tmpd;
+	int i, j, k, z;
+	double **distance_matrix, tmpd, **t, **last;
 	string fn;
 	string tmp;
 	istringstream iss;
@@ -50,4 +55,29 @@ int main(int argc, char **argv){
 	}
 
 	datafile.close();
+	
+	k=2;
+	z = choose(number_of_cities,k);
+	t = (double **) malloc(z * sizeof(double *));
+	for (i=0; i < z; i++){
+		t[i] = (double *) malloc(z*sizeof(double));
+	}
+
+	while(k!=number_of_cities){
+		for (i=0; i < z; i++){
+			for (j=0; j < z; j++){
+				t[i][j]=
+				t[j][i]=t[i][j];
+			}
+		}
+
+		last = t;
+		k++;
+		z = choose(number_of_cities,k);
+		free(t);
+		t = (double **) malloc(z * sizeof(double *));
+		for (i=0; i < z; i++){
+			t[i] = (double *) malloc(z*sizeof(double));
+		}
+	}
 }
