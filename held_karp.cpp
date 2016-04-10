@@ -10,13 +10,24 @@ int choose(int n, int k){
 	return (n * choose(n-1,k-1))/k;
 }
 
+int count(int n){
+	int c=0;
+
+	while(n!=0){
+		n=n&(n-1);
+		c++;
+	}
+
+	return c;
+}
+
 int main(int argc, char **argv){
 	//argv[1]=number of cities
 	//argv[2]=file name of distance matrix
 	
 	int number_of_cities;
 	int i, j, k, z;
-	double **distance_matrix, tmpd, **t, **last;
+	double **distance_matrix, tmpd, *t, *last;
 	string fn;
 	string tmp;
 	istringstream iss;
@@ -58,26 +69,14 @@ int main(int argc, char **argv){
 	
 	k=2;
 	z = choose(number_of_cities,k);
-	t = (double **) malloc(z * sizeof(double *));
-	for (i=0; i < z; i++){
-		t[i] = (double *) malloc(z*sizeof(double));
-	}
+	t = (double *) malloc(z * sizeof(double));
 
 	while(k!=number_of_cities){
-		for (i=0; i < z; i++){
-			for (j=0; j < z; j++){
-				t[i][j]=
-				t[j][i]=t[i][j];
-			}
-		}
 
 		last = t;
 		k++;
 		z = choose(number_of_cities,k);
 		free(t);
-		t = (double **) malloc(z * sizeof(double *));
-		for (i=0; i < z; i++){
-			t[i] = (double *) malloc(z*sizeof(double));
-		}
+		t = (double *) malloc(z * sizeof(double));
 	}
 }
